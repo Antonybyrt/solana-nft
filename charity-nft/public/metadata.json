@@ -1,0 +1,23 @@
+{
+    "name": "Charity NFT #1",
+    "symbol": "CHNFT",
+    "description": "Un NFT pour soutenir la charité en faveur des animaux abandonnés.",
+    "seller_fee_basis_points": 500,
+    "image": "https://example.com/image.png",
+    "attributes": [
+      {
+        "trait_type": "Cause",
+        "value": "Animaux abandonnés"
+      }
+    ],
+    "properties": {
+      "files": [
+        {
+          "uri": "https://example.com/image.png",
+          "type": "image/png"
+        }
+      ],
+      "category": "image"
+    }
+  }
+  

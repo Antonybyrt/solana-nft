@@ -45,31 +45,56 @@ const CreateCollectionComponent: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Créer une Collection</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="max-w-md mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold text-white mb-6 text-center">
+        Créer une Collection
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label>Nom :</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+          <label className="block text-gray-300 mb-1">Nom :</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full px-3 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
         <div>
-          <label>Symbole :</label>
-          <input type="text" value={symbol} onChange={(e) => setSymbol(e.target.value)} required />
+          <label className="block text-gray-300 mb-1">Symbole :</label>
+          <input
+            type="text"
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            required
+            className="w-full px-3 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
         <div>
-          <label>Seller Fee (%) :</label>
+          <label className="block text-gray-300 mb-1">Seller Fee (%) :</label>
           <input
             type="number"
             value={sellerFee}
             onChange={(e) => setSellerFee(Number(e.target.value))}
             required
+            className="w-full px-3 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
-          <label>Image :</label>
-          <input type="file" accept="image/*" onChange={handleFileChange} required />
+          <label className="block text-gray-300 mb-1">Image :</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            required
+            className="w-full text-gray-200"
+          />
         </div>
-        <button type="submit" disabled={loading}>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           {loading ? "Création en cours..." : "Créer la Collection"}
         </button>
       </form>

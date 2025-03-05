@@ -1,3 +1,5 @@
+'use client';
+
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { useMemo } from 'react';
@@ -10,12 +12,10 @@ import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // Choix du réseau (ici Devnet, à adapter pour Mainnet)
-  const network = WalletAdapterNetwork.Devnet;
-  const endpoint = useMemo(() => "https://api.devnet.solana.com", [network]);
+  const endpoint = useMemo(() => "https://api.devnet.solana.com", ['devnet']);
 
   // Configure les wallets que tu souhaites utiliser (ici Phantom)
-  const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], ['devnet']);
 
   return (
     <ConnectionProvider endpoint={endpoint}>

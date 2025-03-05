@@ -10,8 +10,13 @@
   },
   "dependencies": {
     "@metaplex-foundation/js": "^0.20.1",
+    "@metaplex-foundation/mpl-token-metadata": "^3.4.0",
     "@metaplex-foundation/umi": "^1.1.1",
+    "@metaplex-foundation/umi-bundle-defaults": "^1.1.1",
+    "@metaplex-foundation/umi-signer-wallet-adapters": "^1.1.1",
+    "@metaplex-foundation/umi-uploader-irys": "^1.1.1",
     "@project-serum/anchor": "^0.26.0",
+    "@solana-developers/helpers": "^2.8.0",
     "@solana/spl-token": "^0.4.12",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-phantom": "^0.9.24",

@@ -3,8 +3,9 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useEffect, useState } from 'react';
 import Navbar from '../components/NavBar';
-import { clusterApiUrl, Connection } from '@solana/web3.js';
-import { Metaplex, walletAdapterIdentity } from '@metaplex-foundation/js';
+import { clusterApiUrl, Connection, Keypair, PublicKey } from '@solana/web3.js';
+import { keypairIdentity, Metaplex, walletAdapterIdentity } from '@metaplex-foundation/js';
+import bs58 from 'bs58';
 
 const Home: NextPage = () => {
   const { connected, publicKey, wallet, signTransaction, signAllTransactions } = useWallet();
@@ -20,7 +21,7 @@ const Home: NextPage = () => {
     if (publicKey) {
       try {
         const metaplex = Metaplex.make(connection);
-        const nftList = await metaplex.nfts().findAllByOwner({ owner: publicKey });
+        const nftList = await metaplex.nfts().findAllByOwner({ owner: new PublicKey('35kTje9dbE9juGRLJzLGhMmT42CF9KYJb2K1cJrQndFy') });
         console.log(nftList);
         setNfts(nftList);
       } catch (error) {
@@ -68,6 +69,11 @@ const Home: NextPage = () => {
         name: nftName,
         symbol: nftSymbol,
         sellerFeeBasisPoints: 500,
+        uses: {
+          useMethod: "Single" as any, 
+          total: 1,           
+          remaining: 1,       
+        },
       });
   
       alert(`NFT créé avec succès ! Adresse : ${nft.address.toBase58()}`);
@@ -79,6 +85,36 @@ const Home: NextPage = () => {
     } catch (error) {
       console.error("Erreur création NFT:", error);
       alert("Erreur lors de la création du NFT");
+    }
+  };
+
+  const handleBuyNFT = async (nft: any) => {
+    if (!publicKey) {
+      alert("Veuillez vous connecter !");
+      return;
+    }
+    try {
+      const buyer = publicKey.toBase58()
+      const charityWallet = Keypair.fromSecretKey(
+        bs58.decode('4vqxFL2DRYTpHPahAZr7hybVdnJLXP2UuvmDCrWbHduVb6sfQfbHxz3iCgyYdQfYk2rLMLjS3dQXHFkn2EjWTggT')
+      );
+      const metaplex = Metaplex.make(connection).use(keypairIdentity(charityWallet));
+
+
+      //await metaplex.nfts().approveUseAuthority({mintAddress : nft.mintAddress, user: publicKey})
+
+
+      const txSignature = await metaplex.nfts().transfer({
+        nftOrSft: nft,
+        fromOwner: charityWallet.publicKey,
+        toOwner: new PublicKey(buyer),
+      });
+      alert(`NFT acheté avec succès ! Transaction : ${txSignature}`);
+      fetchNFTs();
+    } catch (error) {
+      console.error("Erreur lors de l'achat du NFT:", error);
+      console.log('2', error)
+      alert("Erreur lors de l'achat du NFT");
     }
   };
 
@@ -151,7 +187,10 @@ const Home: NextPage = () => {
               <div key={index} className="bg-white dark:bg-gray-800 shadow rounded p-4">
                 <h2 className="text-xl font-semibold">{nft.symbol ? nft.symbol : nft.name}</h2>
                 <p>{nft.name}</p>
-                <button className="mt-4 px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded hover:bg-blue-600 dark:hover:bg-blue-700">
+                <button
+                  onClick={() => handleBuyNFT(nft)}
+                  className="mt-4 px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded hover:bg-blue-600 dark:hover:bg-blue-700"
+                >
                   Acheter ce NFT
                 </button>
               </div>
